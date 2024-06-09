@@ -1,12 +1,10 @@
-# Developed by Raul Ikeda
-
-import pandas as pd
-import sys
 import math
+import sys
 from copy import deepcopy
 from datetime import datetime
 
 import numpy as np
+import pandas as pd
 
 
 def sign(number):
@@ -897,7 +895,7 @@ class TradingSystem:
                 if id in self.strategies:
                     strategy = self.strategies[id]
                     strategy._fill(
-                        order.id, order.timestamp, instrument, 0, 0, order.status
+                        order.id, self.timestamp, instrument, 0, 0, order.status
                     )
             else:
                 if order.id not in self.orders:
@@ -1077,7 +1075,8 @@ last_price = 0
 setattr(main_module, "last_price", last_price)
 filled = False
 setattr(main_module, "filled", filled)
-
+avail_capital = 0
+setattr(main_module, "avail_capital", avail_capital)
 
 def dummy():
     pass
@@ -1127,6 +1126,7 @@ def SELL(price=0, quantity=0, symbol=''):
 
     if _quantity > 0:
         order = Order(symbol, Order.S, _quantity, price)
+        print('entra')
         strategy[0]._orders[order.id] = order
         strategy[0].submit(strategy[0].id, order)
 
@@ -1177,7 +1177,6 @@ def simple_test(
     files={},
     file_type=MarketData.INTR
 ):
-
     main_module = sys.modules["__main__"]
 
     instrument = []
