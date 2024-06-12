@@ -895,7 +895,7 @@ class TradingSystem:
                 if id in self.strategies:
                     strategy = self.strategies[id]
                     strategy._fill(
-                        order.id, self.timestamp, instrument, 0, 0, order.status
+                        order.id, order.timestamp, instrument, 0, 0, order.status
                     )
             else:
                 if order.id not in self.orders:
@@ -1020,7 +1020,9 @@ class SimpleStrategy(Strategy):
 
             try:
                 self.func()
-            except:
+            except Exception as e:
+                raise RuntimeError(e)
+                # print(e)
                 pass
 
             self.first = False
